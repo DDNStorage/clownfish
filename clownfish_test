@@ -1,0 +1,11 @@
+#!/usr/bin/python -u
+# Copyright (c) 2018 DataDirect Networks, Inc.
+# All Rights Reserved.
+# Author: lixi@ddn.com
+"""
+Test clownfish which manages Lustre clusters automatically
+"""
+from pyclownfish import clownfish_test
+
+if __name__ == "__main__":
+    clownfish_test.main()

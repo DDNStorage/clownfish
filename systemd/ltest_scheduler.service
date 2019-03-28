@@ -1,0 +1,10 @@
+[Unit]
+Description=Lipe Test Scheduler, common scheduler framework, manages the usage of test hosts and services the test launchers.
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ltest_scheduler
+User=root
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+#!/usr/bin/python -u
+# Copyright (c) 2018 DataDirect Networks, Inc.
+# All Rights Reserved.
+# Author: gzheng@ddn.com
+"""
+Install Clownfish cluster
+"""
+from pyclownfish import clownfish_install
+
+if __name__ == "__main__":
+    clownfish_install.main()

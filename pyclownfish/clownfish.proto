@@ -1,0 +1,134 @@
+syntax = "proto2";
+package clownfish;
+message ClownfishMessage {
+    enum ClownfishProtocolVersion {
+        CPV_ZERO = 0;
+    }
+
+    enum ClownfishMessageType {
+        CMT_COMMAND_CHILDREN_REQUEST = 0;
+        CMT_COMMAND_CHILDREN_REPLY = 1;
+        CMT_COMMAND_DICT_REQUEST = 2;
+        CMT_COMMAND_DICT_REPLY = 3;
+        CMT_COMMAND_REQUEST = 4;
+        CMT_COMMAND_PARTWAY_QUERY = 5;
+        CMT_COMMAND_REPLY = 6;
+        CMT_CONNECT_REQUEST = 7;
+        CMT_CONNECT_REPLY = 8;
+        CMT_PING_REQUEST = 9;
+        CMT_PING_REPLY = 10;
+        CMT_PWD_REQUEST = 11;
+        CMT_PWD_REPLY = 12;
+        CMT_GENERAL = 13;
+    }
+
+    enum ClownfishErrno {
+        CE_NO_ERROR = 0;
+        /* UUID doesnot exist on server */
+        CE_NO_UUID = 1;
+        /* Request type is not supported */
+        CE_NO_TYPE = 2;
+    }
+
+    message ClownfishCommandPartwayQuery {
+        required bool ccpq_abort = 1;
+    }
+
+    message ClownfishCommandRequest {
+        required string ccrt_cmd_line = 1;
+    }
+
+    message ClownfishCommandFinalReply {
+        required int32 ccfr_exit_status = 1;
+        required int32 ccfr_quit = 2;
+    }
+
+    message ClownfishLogRecord {
+        /* Name of the log */
+        required bool clr_is_stdout = 1;
+        required bool clr_is_stderr = 2;
+        required string clr_name = 3;
+        /* level of the log: ERROR/WARNING/INFO/DEBUG */
+        required int32 clr_levelno = 4;
+        required string clr_pathname = 5;
+        required int32 clr_lineno = 6;
+        required string clr_funcname = 7;
+        required float clr_created_time = 8;
+        required string clr_msg = 9;
+    }
+
+    message ClownfishCommandReply {
+        required bool ccry_is_final = 1;
+        optional ClownfishCommandFinalReply ccry_final = 2;
+        repeated ClownfishLogRecord ccry_logs = 3;
+    }
+
+    message ClownfishCommandChildrenRequest {
+    }
+
+    message ClownfishCommandChildrenReply {
+        repeated string cccry_children = 1;
+    }
+
+    message ClownfishCommandDictRequest {
+    }
+
+    message ClownfishCommandItem {
+        required string cci_command = 1;
+        required bool cci_need_child = 2;
+        repeated string cci_arguments = 3;
+    }
+
+    message ClownfishCommandDictReply {
+        repeated ClownfishCommandItem ccdry_items = 1;
+    }
+
+    message ClownfishConnectRequest {
+        required int64 ccrt_client_hash = 1;
+    }
+
+    message ClownfishConnectReply {
+        required int64 ccry_client_hash = 1;
+    }
+
+    message ClownfishDisconnectRequest {
+    }
+
+    message ClownfishDisconnectReply {
+    }
+
+    message ClownfishPingRequest {
+    }
+
+    message ClownfishPingReply {
+    }
+
+    message ClownfishPwdRequest {
+    }
+
+    message ClownfishPwdReply {
+         required string cpry_pwd = 1;
+    }
+
+    required ClownfishProtocolVersion cm_protocol_version = 1;
+    /* The UUID in connect request is ignored */
+    required int64 cm_client_uuid = 2;
+    required ClownfishMessageType cm_type = 3;
+    required ClownfishErrno cm_errno = 4;
+    optional ClownfishCommandChildrenRequest cm_command_children_request = 5;
+    optional ClownfishCommandChildrenReply cm_command_children_reply = 6;
+    optional ClownfishCommandDictRequest cm_command_dict_request = 7;
+    optional ClownfishCommandDictReply cm_command_dict_reply = 8;
+    optional ClownfishCommandRequest cm_command_request = 9;
+    optional ClownfishCommandReply cm_command_reply = 10;
+    optional ClownfishCommandPartwayQuery cm_command_partway_query = 11;
+    optional ClownfishConnectRequest cm_connect_request = 12;
+    optional ClownfishConnectReply cm_connect_reply = 13;
+    optional ClownfishDisconnectRequest cm_disconnect_request = 14;
+    optional ClownfishDisconnectReply cm_disconnect_reply = 15;
+    optional ClownfishPingRequest cm_ping_request = 16;
+    optional ClownfishPingReply cm_ping_reply = 17;
+    optional ClownfishPwdRequest cm_pwd_request = 18;
+    optional ClownfishPwdReply cm_pwd_reply = 19;
+}
+

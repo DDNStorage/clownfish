@@ -1,0 +1,5 @@
+[TYPECHECK]
+ignored-classes=ClownfishPingReply,ClownfishMessage,ClownfishPingReply
+# Fix the error: Module 'zmq' has no 'REQ' member (no-member)
+generated-members=zmq.REQ,zmq.REP,zmq.ROUTER,zmq.DEALER,zmq.proxy,zmq.LINGER
+disable=line-too-long,anomalous-backslash-in-string,invalid-name,superfluous-parens,bare-except,too-many-return-statements

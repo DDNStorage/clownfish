@@ -1,0 +1,200 @@
+# CLOWNFISH specfile
+
+# RHEL >= 7 comes with systemd
+%if 0%{?rhel} >= 7
+%define with_systemd 1
+%endif
+
+Name: @PACKAGE@
+Version: @VERSION@
+
+Vendor: DataDirect Networks Inc.
+Prefix: %{_prefix}
+
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+
+Release: @CLOWNFISH_RELEASE@%{?dist}
+
+Summary: clownfish - Lustre Integrated Policy Engine
+License: All rights reserved DataDirect Networks Inc.
+Group: Applications/System
+Source0: @PACKAGE@-%{version}.tar.gz
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Requires: clownfish-pylustre = %{version}-%{release}
+Requires: rsync
+Provides: clownfish = %{version}-%{release}
+%if %{with systemd}
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
+BuildRequires: systemd
+%endif
+
+%description
+Clownfish management system of Lustre file system.
+
+%package pylustre
+Summary: Python Library of Lustre - General Python Library to manage Lustre
+Provides: clownfish-pylustre = %{version}-%{release}
+Group: Applications/System
+
+%description pylustre
+Pylustre is a python library for managing Lustre file system.
+
+%package clownfish
+Summary: Lustre Management System
+Requires: clownfish-pylustre = %{version}-%{release}
+Requires: rsync
+Provides: clownfish = %{version}-%{release}
+Group: Applications/System
+
+%description clownfish
+Clownfish manages Lustre clusters for HA purposes.
+
+%package pyltest
+Summary: Python Library of clownfish common test framework
+Requires: clownfish-pylustre = %{version}-%{release}
+Provides: clownfish-pyltest = %{version}-%{release}
+%if %{with systemd}
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
+BuildRequires: systemd
+%endif
+Group: Applications/System
+
+%description pyltest
+Pyltest is a common test framework for clownfish
+
+%post pyltest
+if [[ %{release} == *.el7 ]];then
+	# explicit systemctl daemon-reload
+	/usr/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+else
+	/sbin/service ltest_scheduler reload >/dev/null 2>&1 ||:
+fi
+
+%preun pyltest
+if [ $1 = 0 ] ; then
+	if [[ %{release} == *.el7 ]];then
+		# Disable and stop on removal.
+		/usr/bin/systemctl --no-reload disable ltest_scheduler > /dev/null 2>&1 || :
+		/usr/bin/systemctl stop ltest_scheduler > /dev/null 2>&1 || :
+	else
+        	/sbin/service ltest_scheduler stop >/dev/null 2>&1 ||:
+        	/sbin/chkconfig --del ltest_scheduler
+	fi
+fi
+
+%postun pyltest
+if [ $1 = 1 ] ; then
+	if [[ %{release} == *.el7 ]];then
+		# Restart on upgrade
+		/usr/bin/systemctl try-restart ltest_scheduler > /dev/null 2>&1 || :
+	else
+		/sbin/service ltest_scheduler condrestart >/dev/null 2>&1 ||:
+	fi
+fi
+
+
+Generated using options: @ac_configure_args@
+
+%prep
+%setup -q -n @PACKAGE@-%{version}
+
+%build
+./configure @ac_configure_args@ %{?configure_flags:configure_flags} \
+	--sysconfdir=%{_sysconfdir} \
+	--mandir=%{_mandir} \
+	--libdir=%{_libdir} \
+	--includedir=%{_includedir} \
+	--prefix=%{_prefix}
+
+make
+make check
+
+python -m py_compile pyclownfish/*.py
+python -m py_compile pylustre/*.py
+python -m py_compile pyltest/*.py
+
+find pyclownfish pylustre pyltest -maxdepth 1 -type f -a -name "*.python_checked" -o -name "*.py" | xargs rm -f
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT%{_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/clownfish
+mkdir -p $RPM_BUILD_ROOT%{python_sitelib}
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
+cp clownfish_console \
+	clownfish_install \
+	clownfish_server \
+	clownfish_test \
+	ltest_console \
+	ltest_launch \
+	ltest_scheduler \
+	lvirt \
+	$RPM_BUILD_ROOT%{_bindir}
+cp -a pyclownfish $RPM_BUILD_ROOT%{python_sitelib}
+cp -a pylustre $RPM_BUILD_ROOT%{python_sitelib}
+cp -a pyltest $RPM_BUILD_ROOT%{python_sitelib}
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
+cp -a example_configs/clownfish/clownfish_install.conf \
+	example_configs/clownfish/clownfish_test.conf \
+	example_configs/clownfish/seperate_mgs/clownfish.conf \
+	example_configs/ltest/ltest_scheduler.conf \
+	example_configs/clownfish/seperate_mgs/lvirt.conf \
+	$RPM_BUILD_ROOT%{_sysconfdir}
+%if %{with systemd}
+    mkdir -p $RPM_BUILD_ROOT/usr/lib/systemd/system/
+    install -m 0644 -D systemd/clownfish_server.service \
+        $RPM_BUILD_ROOT%{_unitdir}/clownfish_server.service
+    install -m 0644 -D systemd/ltest_scheduler.service \
+        $RPM_BUILD_ROOT%{_unitdir}/ltest_scheduler.service
+%else
+    mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d
+    install -m 0744 -D init.d/ltest_scheduler \
+        $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/ltest_scheduler
+    install -m 0744 -D init.d/clownfish_server \
+        $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/clownfish_server
+%endif
+
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%{python_sitelib}/pyclownfish
+%{_bindir}/clownfish_console
+%{_bindir}/clownfish_install
+%{_bindir}/clownfish_server
+%{_bindir}/clownfish_test
+%config(noreplace) %{_sysconfdir}/clownfish.conf
+%config(noreplace) %{_sysconfdir}/clownfish_install.conf
+%config(noreplace) %{_sysconfdir}/clownfish_test.conf
+%if %{with systemd}
+    %{_unitdir}/clownfish_server.service
+%else
+    %{_sysconfdir}/rc.d/init.d/clownfish_server
+%endif
+
+%files pylustre
+%{python_sitelib}/pylustre
+%{_bindir}/lvirt
+%config(noreplace) %{_sysconfdir}/lvirt.conf
+
+%files pyltest
+%{python_sitelib}/pyltest
+%{_bindir}/ltest_console
+%{_bindir}/ltest_launch
+%{_bindir}/ltest_scheduler
+%config(noreplace) %{_sysconfdir}/ltest_scheduler.conf
+%if %{with systemd}
+    %{_unitdir}/ltest_scheduler.service
+%else
+    %{_sysconfdir}/rc.d/init.d/ltest_scheduler
+%endif
+
+%changelog
+* Fri Mar 29 2019 Li Xi <lixi@ddn.com> 1.0
+- Original version

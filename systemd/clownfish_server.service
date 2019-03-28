@@ -1,0 +1,10 @@
+[Unit]
+Description=Clownfish, lustre HA manager server.
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/clownfish_server
+User=root
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,93 @@
+#!/bin/sh
+#
+# Starts/stop the test scheduler service
+#
+# chkconfig:   345 95 5
+# description: Test Scheduler
+# configs: /etc/ltest_scheduler.conf
+
+### BEGIN INIT INFO
+# Required-Start: $local_fs
+# Required-Stop: $local_fs
+# Default-Start: 345
+# Default-Stop: 95
+# Short-Description: Test Scheduler
+# Description: Test Scheduler, common scheduler framework, manages the usage of test hosts and services the test launchers.
+### END INIT INFO
+
+. /etc/rc.d/init.d/functions
+
+exec=/usr/bin/ltest_scheduler
+prog="ltest_scheduler"
+
+start() {
+    [ -x $exec ] || exit 5
+    echo -n $"Starting $prog ..."
+    $exec > /dev/null 2> /dev/null &
+    echo
+}
+
+stop() {
+    echo -n $"Stopping $prog ..."
+    if [ -n "`pidfileofproc $exec`" ] ; then
+        killproc $exec
+    else
+        killall $prog > /dev/null 2> /dev/null &
+    fi
+    echo
+}
+
+restart() {
+    stop
+    start
+}
+
+reload() {
+    restart
+}
+
+force_reload() {
+    restart
+}
+
+rh_status() {
+    # run checks to determine if the service is running or use generic status
+    status $prog
+}
+
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+
+
+case "$1" in
+    start)
+        rh_status_q && exit 0
+        $1
+        ;;
+    stop)
+        rh_status_q || exit 0
+        $1
+        ;;
+    restart)
+        $1
+        ;;
+    reload)
+        rh_status_q || exit 7
+        $1
+        ;;
+    force-reload)
+        force_reload
+        ;;
+    status)
+        rh_status
+        ;;
+    condrestart|try-restart)
+        rh_status_q || exit 0
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
+        exit 2
+esac
+exit $?
