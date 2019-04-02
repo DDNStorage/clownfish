@@ -170,13 +170,14 @@ class ClownfishClient(object):
         ret = 0
         time_start = time.time()
         poll = zmq.Poller()
+        context = zmq.Context(1)
         client = None
         while self.cc_running and ret == 0:
             if client is not None:
                 client.setsockopt(zmq.LINGER, 0)
                 client.close()
                 poll.unregister(client)
-            client = self.cc_context.socket(zmq.REQ)
+            client = context.socket(zmq.REQ)
             client.connect(server_url)
             poll.register(client, zmq.POLLIN)
             while self.cc_running and ret == 0:
@@ -215,6 +216,10 @@ class ClownfishClient(object):
         else:
             assert not self.cc_running
             log.cl_debug("ping thread stoped because the console is exiting")
+
+        log.cl_debug("terminating ZMQ context of pinging thread")
+        context.term()
+        log.cl_debug("terminated ZMQ context of pinging thread")
         return ret
 
     def cc_children(self):
