@@ -169,10 +169,6 @@ class LaunchArg(object):
         if ret:
             return ret
 
-        ret = self.la_update_lustre_dir(log, self.la_lustre_dir)
-        if ret:
-            return ret
-
         ret = self.la_update_e2fsprogs_dir(log, self.la_e2fsprogs_dir)
         if ret:
             return ret
