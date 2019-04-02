@@ -213,6 +213,12 @@ def clownfish_rpm_install(log, host, iso_path):
                      host.sh_hostname)
         return -1
 
+    ret = host.sh_rpm_find_and_uninstall(log, "grep pylustre")
+    if ret:
+        log.cl_error("failed to uninstall pylustre rpm on host [%s]",
+                     host.sh_hostname)
+        return -1
+
     package_dir = iso_path + "/" + cstr.CSTR_PACKAGES
 
     command = ("rpm -ivh %s/clownfish-pylustre-*.x86_64.rpm "

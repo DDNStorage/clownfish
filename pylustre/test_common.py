@@ -99,7 +99,12 @@ def _start_install(log, workspace, install_server, mnt_path,
                      install_server.sh_hostname)
         return -1
 
-    cmd_name, config_fname = arg
+    ret = install_server.sh_rpm_find_and_uninstall(log, "grep pylustre")
+    if ret:
+        log.cl_error("failed to uninstall pylustre rpms on host [%s]",
+                     install_server.sh_hostname)
+        return -1
+
     ret = install_server.sh_rpm_find_and_uninstall(log, "grep clownfish")
     if ret:
         log.cl_error("failed to uninstall Clownfish rpms on host [%s]",
@@ -109,7 +114,7 @@ def _start_install(log, workspace, install_server, mnt_path,
     package_dir = mnt_path + "/" + cstr.CSTR_PACKAGES
     command = ("rpm -ivh %s/clownfish-pylustre-*.x86_64.rpm "
                "%s/clownfish-1.*.x86_64.rpm" %
-               (package_dir, package_dir, package_dir))
+               (package_dir, package_dir))
     retval = install_server.sh_run(log, command)
     if retval.cr_exit_status:
         log.cl_error("failed to run command [%s] on host [%s], "
@@ -121,6 +126,7 @@ def _start_install(log, workspace, install_server, mnt_path,
                      retval.cr_stderr)
         return -1
 
+    cmd_name, config_fname = arg
     install_config_fpath = (workspace + "/" + config_fname)
     config_string = ("""#
 # Configuration file for installing %s from DDN

@@ -5,7 +5,7 @@
 """
 Build Clownfish
 """
-from pybuild import lbuild
+from pybuild import clownfish_build
 
 if __name__ == "__main__":
-    lbuild.main()
+    clownfish_build.main()

@@ -85,8 +85,8 @@ class LaunchArg(object):
         self.la_server = "http://localhost:1234"
         self.la_source_path = os.getcwd()
         self.la_host_wait_time = DEFAULT_HOST_TIMEOUT
-        self.la_lustre_dir = DEFAULT_LUSTRE_RPM_DIR
-        self.la_e2fsprogs_dir = DEFAULT_E2FSPROGS_RPM_DIR
+        self.la_lustre_dir = DEFAULT_LUSTRE_RPM_DIR.rstrip('/')
+        self.la_e2fsprogs_dir = DEFAULT_E2FSPROGS_RPM_DIR.rstrip('/')
         # Init when building
         self.la_test_host_source_path = None
         self.la_test_host_iso_fpath = None
@@ -133,7 +133,7 @@ class LaunchArg(object):
             log.cl_error("Lustre RPMs directory [%s] is not a directory",
                          lustre_dir)
             return -1
-        self.la_lustre_dir = lustre_dir
+        self.la_lustre_dir = lustre_dir.rstrip('/')
         log.cl_debug("updated the lustre_dir to [%s]", lustre_dir)
         return 0
 
@@ -145,7 +145,7 @@ class LaunchArg(object):
             log.cl_error("E2fsprogs RPMs directory [%s] is not a directory",
                          e2fsprogs_dir)
             return -1
-        self.la_e2fsprogs_dir = e2fsprogs_dir
+        self.la_e2fsprogs_dir = e2fsprogs_dir.rstrip('/')
         log.cl_debug("updated the url to [%s]", e2fsprogs_dir)
         return 0
 
@@ -550,6 +550,7 @@ class TestCluster(object):
                          "directory [%s] on host [%s]",
                          local_rpm_dir, workspace, test_host.sh_hostname)
             return -1
+
         basename = os.path.basename(local_rpm_dir)
         remote_rpm_dir = workspace + "/" + basename
         remote_lustre_rpm_dir = self.tc_test_host_lustre_rpm_dir
@@ -1187,6 +1188,11 @@ class TestCluster(object):
         ret = self.tc_generate_clownfish_test_config(log)
         if ret:
             log.cl_error("failed to generate config of testing clownfish")
+            return -1
+
+        ret = self.tc_send_lustre_e2fsprogs_rpms(log, launch_argument)
+        if ret:
+            log.cl_error("failed to send Lustre and E2fsprogs RPMs")
             return -1
 
         ret = self.tc_run_clownfish_test(log, launch_argument)
