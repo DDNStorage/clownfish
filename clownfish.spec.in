@@ -109,15 +109,9 @@ Generated using options: @ac_configure_args@
 	--libdir=%{_libdir} \
 	--includedir=%{_includedir} \
 	--prefix=%{_prefix}
-
 make
 make check
-
-python -m py_compile pyclownfish/*.py
-python -m py_compile pylcommon/*.py
-python -m py_compile pyltest/*.py
-
-find pyclownfish pylcommon pyltest -maxdepth 1 -type f -a -name "*.python_checked" -o -name "*.py" | xargs rm -f
+find pyclownfish pylcommon pyltest -maxdepth 1 -type f -a ! -name "*.py" | xargs rm -f
 
 %install
 rm -rf $RPM_BUILD_ROOT
