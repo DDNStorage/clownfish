@@ -11,11 +11,11 @@ import random
 import yaml
 
 # Local libs
-from pylustre import utils
-from pylustre import ssh_host
-from pylustre import lustre
-from pylustre import cstr
-from pylustre import cmd_general
+from pylcommon import utils
+from pylcommon import ssh_host
+from pylcommon import lustre
+from pylcommon import cstr
+from pylcommon import cmd_general
 
 LVIRT_CONFIG_FNAME = "lvirt.conf"
 LVIRT_CONFIG = "/etc/" + LVIRT_CONFIG_FNAME

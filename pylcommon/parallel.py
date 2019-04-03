@@ -7,7 +7,7 @@ Library to execute a function in multiple threads
 import traceback
 import time
 
-from pylustre import utils
+from pylcommon import utils
 
 
 class ParallelThread(object):

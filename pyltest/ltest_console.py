@@ -12,9 +12,9 @@ import sys
 import traceback
 
 # local libs
-from pylustre import clog
-from pylustre import utils
-from pylustre import time_util
+from pylcommon import clog
+from pylcommon import utils
+from pylcommon import time_util
 from pyltest import ltest_scheduler
 
 

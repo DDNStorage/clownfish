@@ -13,11 +13,11 @@ import time
 import yaml
 
 # Local libs
-from pylustre import utils
-from pylustre import parallel
-from pylustre import lustre
-from pylustre import cstr
-from pylustre import lyaml
+from pylcommon import utils
+from pylcommon import parallel
+from pylcommon import lustre
+from pylcommon import cstr
+from pylcommon import lyaml
 from pyclownfish import clownfish_qos
 
 CLOWNFISH_STATUS_CHECK_INTERVAL = 1

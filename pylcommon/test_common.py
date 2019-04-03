@@ -10,12 +10,12 @@ import os
 import yaml
 
 # Local libs
-from pylustre import utils
-from pylustre import cstr
-from pylustre import ssh_host
-from pylustre import watched_io
-from pylustre import lyaml
-from pylustre import lvirt
+from pylcommon import utils
+from pylcommon import cstr
+from pylcommon import ssh_host
+from pylcommon import watched_io
+from pylcommon import lyaml
+from pylcommon import lvirt
 
 
 def mount_and_run(log, workspace, host, host_iso_path, config, funct,
@@ -99,9 +99,9 @@ def _start_install(log, workspace, install_server, mnt_path,
                      install_server.sh_hostname)
         return -1
 
-    ret = install_server.sh_rpm_find_and_uninstall(log, "grep pylustre")
+    ret = install_server.sh_rpm_find_and_uninstall(log, "grep pylcommon")
     if ret:
-        log.cl_error("failed to uninstall pylustre rpms on host [%s]",
+        log.cl_error("failed to uninstall pylcommon rpms on host [%s]",
                      install_server.sh_hostname)
         return -1
 
@@ -112,7 +112,7 @@ def _start_install(log, workspace, install_server, mnt_path,
         return -1
 
     package_dir = mnt_path + "/" + cstr.CSTR_PACKAGES
-    command = ("rpm -ivh %s/clownfish-pylustre-*.x86_64.rpm "
+    command = ("rpm -ivh %s/clownfish-pylcommon-*.x86_64.rpm "
                "%s/clownfish-1.*.x86_64.rpm" %
                (package_dir, package_dir))
     retval = install_server.sh_run(log, command)

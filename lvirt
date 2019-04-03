@@ -5,7 +5,7 @@
 """
 Install virtual machines
 """
-from pylustre import lvirt
+from pylcommon import lvirt
 
 if __name__ == "__main__":
     lvirt.main()

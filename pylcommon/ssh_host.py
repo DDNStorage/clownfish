@@ -18,8 +18,8 @@ import re
 import stat
 
 # local libs
-from pylustre import utils
-from pylustre import watched_io
+from pylcommon import utils
+from pylcommon import watched_io
 
 
 # OS distribution RHEL6/CentOS6

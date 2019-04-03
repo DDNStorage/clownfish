@@ -8,8 +8,8 @@ Lustre test library
 import time
 
 # Local libs
-from pylustre import utils
-from pylustre import watched_io
+from pylcommon import utils
+from pylcommon import watched_io
 
 MULTIOP = "/usr/lib64/lustre/tests/multiop"
 PAUSING = "PAUSING\n"

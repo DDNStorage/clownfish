@@ -14,10 +14,10 @@ import yaml
 import zmq
 
 # Local libs
-from pylustre import utils
-from pylustre import cstr
-from pylustre import cmd_general
-from pylustre import constants
+from pylcommon import utils
+from pylcommon import cstr
+from pylcommon import cmd_general
+from pylcommon import constants
 from pyclownfish import clownfish_pb2
 from pyclownfish import clownfish
 

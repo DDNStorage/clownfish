@@ -7,7 +7,7 @@ Library for checking the import of pyltest source code
 import sys
 
 # Local libs
-from pylustre import clog
+from pylcommon import clog
 
 
 def check_import(log, fpath):

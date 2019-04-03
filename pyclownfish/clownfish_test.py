@@ -12,12 +12,12 @@ import time
 import yaml
 
 # Local libs
-from pylustre import utils
-from pylustre import cstr
-from pylustre import cmd_general
-from pylustre import ssh_host
-from pylustre import test_common
-from pylustre import constants
+from pylcommon import utils
+from pylcommon import cstr
+from pylcommon import cmd_general
+from pylcommon import ssh_host
+from pylcommon import test_common
+from pylcommon import constants
 from pyclownfish import clownfish_console
 from pyclownfish import clownfish
 from pyclownfish import clownfish_install_nodeps

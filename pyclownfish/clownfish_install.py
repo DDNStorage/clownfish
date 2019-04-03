@@ -3,10 +3,10 @@ Install python RPMs for clownfish_install to work properly first
 """
 # Local libs
 import sys
-from pylustre import ssh_host
-from pylustre import install_common
-from pylustre import clog
-from pylustre import constants
+from pylcommon import ssh_host
+from pylcommon import install_common
+from pylcommon import clog
+from pylcommon import constants
 
 
 def main():

@@ -8,7 +8,7 @@ import threading
 import time
 import os
 
-from pylustre import clog
+from pylcommon import clog
 
 #
 # _RWLOCK_SRC_FILE is used when walking the stack to check when we've got the

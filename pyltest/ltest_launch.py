@@ -14,15 +14,15 @@ import traceback
 import yaml
 
 # local libs
-from pylustre import clog
-from pylustre import utils
-from pylustre import time_util
-from pylustre import cstr
-from pylustre import ssh_host
-from pylustre import lyaml
-from pylustre import lvirt
-from pylustre import lustre
-from pylustre import constants
+from pylcommon import clog
+from pylcommon import utils
+from pylcommon import time_util
+from pylcommon import cstr
+from pylcommon import ssh_host
+from pylcommon import lyaml
+from pylcommon import lvirt
+from pylcommon import lustre
+from pylcommon import constants
 from pyltest import ltest_scheduler
 
 

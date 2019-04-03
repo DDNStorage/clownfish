@@ -13,10 +13,10 @@ import readline
 import zmq
 
 # Local libs
-from pylustre import utils
-from pylustre import clog
-from pylustre import time_util
-from pylustre import constants
+from pylcommon import utils
+from pylcommon import clog
+from pylcommon import time_util
+from pylcommon import constants
 from pyclownfish import clownfish_pb2
 from pyclownfish import clownfish
 

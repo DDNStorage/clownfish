@@ -10,9 +10,9 @@ library to install python packages.
 """
 import os
 
-from pylustre import utils
-from pylustre import ssh_host
-from pylustre import cstr
+from pylcommon import utils
+from pylcommon import ssh_host
+from pylcommon import cstr
 
 RPM_PATTERN_RHEL7 = r"^%s-\d.+(\.el7|).*\.(x86_64|noarch)\.rpm$"
 RPM_PATTERN_RHEL6 = r"^%s-\d.+(\.el6|).*\.(x86_64|noarch)\.rpm$"
@@ -213,15 +213,15 @@ def clownfish_rpm_install(log, host, iso_path):
                      host.sh_hostname)
         return -1
 
-    ret = host.sh_rpm_find_and_uninstall(log, "grep pylustre")
+    ret = host.sh_rpm_find_and_uninstall(log, "grep pylcommon")
     if ret:
-        log.cl_error("failed to uninstall pylustre rpm on host [%s]",
+        log.cl_error("failed to uninstall pylcommon rpm on host [%s]",
                      host.sh_hostname)
         return -1
 
     package_dir = iso_path + "/" + cstr.CSTR_PACKAGES
 
-    command = ("rpm -ivh %s/clownfish-pylustre-*.x86_64.rpm "
+    command = ("rpm -ivh %s/clownfish-pylcommon-*.x86_64.rpm "
                "%s/clownfish-1.*.x86_64.rpm --nodeps" %
                (package_dir, package_dir))
     retval = host.sh_run(log, command)

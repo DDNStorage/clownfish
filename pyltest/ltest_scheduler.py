@@ -17,12 +17,12 @@ import socket
 import yaml
 
 # Local libs
-from pylustre import utils
-from pylustre import time_util
-from pylustre import cstr
-from pylustre import cmd_general
-from pylustre import lvirt
-from pylustre import ssh_host
+from pylcommon import utils
+from pylcommon import time_util
+from pylcommon import cstr
+from pylcommon import cmd_general
+from pylcommon import lvirt
+from pylcommon import ssh_host
 
 TEST_SCHEDULER_PORT = 1234
 TEST_SCHEDULER_LOG_DIR = "/var/log/ltest_scheduler"

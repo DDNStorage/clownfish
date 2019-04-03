@@ -9,9 +9,9 @@ import sys
 import httplib
 import requests
 
-from pylustre import clog
-from pylustre import time_util
-from pylustre import utils
+from pylcommon import clog
+from pylcommon import time_util
+from pylcommon import utils
 
 
 class InfluxdbClient(object):

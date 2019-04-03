@@ -7,10 +7,10 @@ Library for installing a tool from ISO
 import traceback
 import yaml
 
-from pylustre import utils
-from pylustre import ssh_host
-from pylustre import cstr
-from pylustre import install_common
+from pylcommon import utils
+from pylcommon import ssh_host
+from pylcommon import cstr
+from pylcommon import install_common
 
 
 def _iso_mount_and_install(log, workspace, config, config_fpath, install_funct):

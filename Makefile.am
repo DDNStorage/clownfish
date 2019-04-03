@@ -16,7 +16,7 @@ example_configs/clownfish/clownfish_test.conf: \
 		pyclownfish/clownfish_test.py \
 		pyclownfish/clownfish_common.py \
 		pyclownfish/clownfish_pb2.py \
-		pylustre/cstr.py pylustre/lvirt.py
+		pylcommon/cstr.py pylcommon/lvirt.py
 	./gen_clownfish_test example_configs/clownfish/clownfish_test.conf
 
 PYTHON_COMMANDS = \
@@ -45,13 +45,13 @@ EXTRA_DIST= \
 	pyclownfish/*.py \
 	pyclownfish/clownfish.proto \
 	pyclownfish/.pylintrc \
-	pylustre/*.py \
+	pylcommon/*.py \
 	pyltest/*.py \
 	.pylintrc
 
 PYTHON_PROTOBUF = pyclownfish/clownfish_pb2.py
 PYLTEST_FILES = $(wildcard pyltest/*.py)
-PYTHON_LIB_FILES = $(wildcard pyclownfish/*.py pylustre/*.p)
+PYTHON_LIB_FILES = $(wildcard pyclownfish/*.py pylcommon/*.p)
 PYTHON_LIB_FILES += $(PYLTEST_FILES)
 PYTHON_FILES = $(PYTHON_LIB_FILES) $(PYTHON_COMMANDS)
 PYTHON_CHECKS = $(PYTHON_FILES:%=%.python_checked)
@@ -88,7 +88,7 @@ mrproper: maintainer-clean
 	rm -f Makefile.in aclocal.m4 configure
 	rm -f compile depcomp install-sh missing
 
-PYLUSTRE_RPM = build/RPMS/x86_64/clownfish-pylustre-$(PACKAGE_VERSION)-$(CLOWNFISH_RELEASE).el$(DISTRO_RELEASE)*.x86_64.rpm
+PYLUSTRE_RPM = build/RPMS/x86_64/clownfish-pylcommon-$(PACKAGE_VERSION)-$(CLOWNFISH_RELEASE).el$(DISTRO_RELEASE)*.x86_64.rpm
 PYLTEST_RPM = build/RPMS/x86_64/clownfish-pyltest-$(PACKAGE_VERSION)-$(CLOWNFISH_RELEASE).el$(DISTRO_RELEASE)*.x86_64.rpm
 CLOWNFISH_RPM = build/RPMS/x86_64/clownfish-$(PACKAGE_VERSION)-$(CLOWNFISH_RELEASE).el$(DISTRO_RELEASE)*.x86_64.rpm
 

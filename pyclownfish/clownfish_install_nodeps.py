@@ -11,13 +11,13 @@ import re
 import time
 
 # Local libs
-from pylustre import utils
-from pylustre import ssh_host
-from pylustre import cstr
-from pylustre import cmd_general
-from pylustre import install_common
-from pylustre import install_common_nodeps
-from pylustre import constants
+from pylcommon import utils
+from pylcommon import ssh_host
+from pylcommon import cstr
+from pylcommon import cmd_general
+from pylcommon import install_common
+from pylcommon import install_common_nodeps
+from pylcommon import constants
 from pyclownfish import clownfish_common
 
 CLOWNFISH_COROSYNC_FNAME = "corosync.conf"

@@ -20,7 +20,7 @@ License: All rights reserved DataDirect Networks Inc.
 Group: Applications/System
 Source0: @PACKAGE@-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires: clownfish-pylustre = %{version}-%{release}
+Requires: clownfish-pylcommon = %{version}-%{release}
 Requires: rsync
 Provides: clownfish = %{version}-%{release}
 %if %{with systemd}
@@ -33,17 +33,17 @@ BuildRequires: systemd
 %description
 Clownfish management system of Lustre file system.
 
-%package pylustre
+%package pylcommon
 Summary: Python Library of Lustre - General Python Library to manage Lustre
-Provides: clownfish-pylustre = %{version}-%{release}
+Provides: clownfish-pylcommon = %{version}-%{release}
 Group: Applications/System
 
-%description pylustre
+%description pylcommon
 Pylustre is a python library for managing Lustre file system.
 
 %package clownfish
 Summary: Lustre Management System
-Requires: clownfish-pylustre = %{version}-%{release}
+Requires: clownfish-pylcommon = %{version}-%{release}
 Requires: rsync
 Provides: clownfish = %{version}-%{release}
 Group: Applications/System
@@ -53,7 +53,7 @@ Clownfish manages Lustre clusters for HA purposes.
 
 %package pyltest
 Summary: Python Library of clownfish common test framework
-Requires: clownfish-pylustre = %{version}-%{release}
+Requires: clownfish-pylcommon = %{version}-%{release}
 Provides: clownfish-pyltest = %{version}-%{release}
 %if %{with systemd}
 Requires(post): systemd
@@ -114,10 +114,10 @@ make
 make check
 
 python -m py_compile pyclownfish/*.py
-python -m py_compile pylustre/*.py
+python -m py_compile pylcommon/*.py
 python -m py_compile pyltest/*.py
 
-find pyclownfish pylustre pyltest -maxdepth 1 -type f -a -name "*.python_checked" -o -name "*.py" | xargs rm -f
+find pyclownfish pylcommon pyltest -maxdepth 1 -type f -a -name "*.python_checked" -o -name "*.py" | xargs rm -f
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -136,7 +136,7 @@ cp clownfish_console \
 	lvirt \
 	$RPM_BUILD_ROOT%{_bindir}
 cp -a pyclownfish $RPM_BUILD_ROOT%{python_sitelib}
-cp -a pylustre $RPM_BUILD_ROOT%{python_sitelib}
+cp -a pylcommon $RPM_BUILD_ROOT%{python_sitelib}
 cp -a pyltest $RPM_BUILD_ROOT%{python_sitelib}
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
 cp -a example_configs/clownfish/clownfish_install.conf \
@@ -178,8 +178,8 @@ rm -rf $RPM_BUILD_ROOT
     %{_sysconfdir}/rc.d/init.d/clownfish_server
 %endif
 
-%files pylustre
-%{python_sitelib}/pylustre
+%files pylcommon
+%{python_sitelib}/pylcommon
 %{_bindir}/lvirt
 %config(noreplace) %{_sysconfdir}/lvirt.conf
 

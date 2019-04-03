@@ -14,7 +14,7 @@ import os
 import threading
 import inspect
 
-from pylustre import utils
+from pylcommon import utils
 
 LOG_DEBUG_FNAME = "debug.log"
 LOG_INFO_FNAME = "info.log"

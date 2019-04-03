@@ -11,12 +11,12 @@ import re
 import yaml
 
 # Local libs
-from pylustre import utils
-from pylustre import ssh_host
-from pylustre import cstr
-from pylustre import constants
-from pylustre import install_common
-from pylustre import cmd_general
+from pylcommon import utils
+from pylcommon import ssh_host
+from pylcommon import cstr
+from pylcommon import constants
+from pylcommon import install_common
+from pylcommon import cmd_general
 from pyclownfish import clownfish_common
 
 SOURCE_DIR = None

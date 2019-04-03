@@ -8,12 +8,12 @@ Generate clownfish_test.conf
 import sys
 import yaml
 
-from pylustre import utils
-from pylustre import clog
-from pylustre import cstr
-from pylustre import lvirt
-from pylustre import lyaml
-from pylustre import constants
+from pylcommon import utils
+from pylcommon import clog
+from pylcommon import cstr
+from pylcommon import lvirt
+from pylcommon import lyaml
+from pylcommon import constants
 from pyclownfish import clownfish_test
 
 

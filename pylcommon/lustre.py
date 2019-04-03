@@ -10,10 +10,10 @@ import re
 import time
 
 # Local libs
-from pylustre import utils
-from pylustre import ssh_host
-from pylustre import cstr
-from pylustre import rwlock
+from pylcommon import utils
+from pylcommon import ssh_host
+from pylcommon import cstr
+from pylcommon import rwlock
 
 EPEL_RPM_RHEL6_RPM = ("http://download.fedoraproject.org/pub/epel/6/x86_64/"
                       "epel-release-6-8.noarch.rpm")

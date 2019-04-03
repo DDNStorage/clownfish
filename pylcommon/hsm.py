@@ -8,10 +8,10 @@ HSM library
 import time
 
 # Local libs
-from pylustre import utils
-from pylustre import watched_io
-from pylustre import daemon
-from pylustre import time_util
+from pylcommon import utils
+from pylcommon import watched_io
+from pylcommon import daemon
+from pylcommon import time_util
 
 
 REMOVER_INTERVAL = 60
